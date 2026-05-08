@@ -15,8 +15,9 @@ public class VendorService {
         this.repo = repo;
     }
 
+    // Optimized query for Day 11
     public List<Vendor> getAll() {
-        return repo.findAll();
+        return repo.findAllWithReviews();
     }
 
     public Vendor getById(Long id) {
@@ -29,9 +30,12 @@ public class VendorService {
 
     public Vendor update(Long id, Vendor newVendor) {
         return repo.findById(id).map(vendor -> {
+
             vendor.setName(newVendor.getName());
             vendor.setEmail(newVendor.getEmail());
+
             return repo.save(vendor);
+
         }).orElse(null);
     }
 
