@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
-import { LineChart, Line, XAxis, YAxis } from "recharts";
+
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  ResponsiveContainer
+} from "recharts";
+
+import "../styles/responsive.css";
 
 export default function Analytics() {
   const [data, setData] = useState([]);
@@ -12,19 +21,29 @@ export default function Analytics() {
   }, [period]);
 
   return (
-    <div>
+    <div className="analytics-container">
       <h2>Analytics</h2>
 
-      <select onChange={(e) => setPeriod(e.target.value)}>
+      <select
+        value={period}
+        onChange={(e) => setPeriod(e.target.value)}
+      >
         <option value="weekly">Weekly</option>
         <option value="monthly">Monthly</option>
       </select>
 
-      <LineChart width={500} height={250} data={data}>
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Line type="monotone" dataKey="value" />
-      </LineChart>
+      <div className="chart-container">
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={data}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Line
+              type="monotone"
+              dataKey="value"
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
